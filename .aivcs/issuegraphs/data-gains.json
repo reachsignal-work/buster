@@ -1,0 +1,499 @@
+{
+  "version": "1.0.0",
+  "issuegraph_id": "buster-data-gains",
+  "title": "Buster Data Gains and product backlog",
+  "repository": "https://github.com/reachsignal-work/buster",
+  "canonical_docs": [
+    "docs/architecture/system.md",
+    "docs/architecture/data-gains.md",
+    "docs/requirements/data-gains.md",
+    "docs/planning/epics-and-stories.md"
+  ],
+  "created_at": "2026-10-04T12:00:00Z",
+  "status": "planned",
+  "waves": [
+    { "id": "wave-1", "title": "Data Gains", "exit": "DG-S8.3" },
+    { "id": "wave-2", "title": "Agents and experience", "exit": "APP-S3.2" },
+    { "id": "wave-3", "title": "Demand capture", "exit": "APP-S4.3" }
+  ],
+  "nodes": [
+    {
+      "id": "DG-E1",
+      "type": "epic",
+      "wave": "wave-1",
+      "title": "Canonical contracts",
+      "status": "planned",
+      "requirements": ["DG-REQ-1", "DG-REQ-5", "DG-REQ-7", "DG-REQ-8", "DG-REQ-10"],
+      "dependencies": []
+    },
+    {
+      "id": "DG-S1.1",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Versioned canonical site schema",
+      "status": "planned",
+      "requirements": ["DG-REQ-1"],
+      "dependencies": [],
+      "parent": "DG-E1"
+    },
+    {
+      "id": "DG-S1.2",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Observation envelopes",
+      "status": "planned",
+      "requirements": ["DG-REQ-5", "DG-REQ-7"],
+      "dependencies": [],
+      "parent": "DG-E1"
+    },
+    {
+      "id": "DG-S1.3",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Derived fields require a method",
+      "status": "planned",
+      "requirements": ["DG-REQ-8", "DG-REQ-10"],
+      "dependencies": ["DG-S1.1"],
+      "parent": "DG-E1"
+    },
+    {
+      "id": "DG-E2",
+      "type": "epic",
+      "wave": "wave-1",
+      "title": "Spatial database",
+      "status": "planned",
+      "requirements": ["DG-REQ-11", "DG-REQ-19", "DG-REQ-20"],
+      "dependencies": ["DG-E1"]
+    },
+    {
+      "id": "DG-S2.1",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "PostGIS migration and indexes",
+      "status": "planned",
+      "requirements": ["DG-REQ-19"],
+      "dependencies": ["DG-S1.1"],
+      "parent": "DG-E2"
+    },
+    {
+      "id": "DG-S2.2",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Load public transmission lines and substations",
+      "status": "planned",
+      "requirements": ["DG-REQ-19", "DG-REQ-20"],
+      "dependencies": ["DG-S2.1"],
+      "parent": "DG-E2"
+    },
+    {
+      "id": "DG-S2.3",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Flood and wetland overlays",
+      "status": "planned",
+      "requirements": ["DG-REQ-10"],
+      "dependencies": ["DG-S2.1"],
+      "parent": "DG-E2"
+    },
+    {
+      "id": "DG-S2.4",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Slope sampler and 3% gate",
+      "status": "planned",
+      "requirements": ["DG-REQ-11"],
+      "dependencies": ["DG-S2.1"],
+      "parent": "DG-E2"
+    },
+    {
+      "id": "DG-E3",
+      "type": "epic",
+      "wave": "wave-1",
+      "title": "Interconnection queues",
+      "status": "planned",
+      "requirements": ["DG-REQ-5", "DG-REQ-6", "DG-REQ-18"],
+      "dependencies": ["DG-E1"]
+    },
+    {
+      "id": "DG-S3.1",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "PJM queue extractor",
+      "status": "planned",
+      "requirements": ["DG-REQ-5", "DG-REQ-6"],
+      "dependencies": ["DG-S1.2"],
+      "parent": "DG-E3"
+    },
+    {
+      "id": "DG-S3.2",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "ERCOT queue extractor",
+      "status": "planned",
+      "requirements": ["DG-REQ-5", "DG-REQ-6"],
+      "dependencies": ["DG-S1.2"],
+      "parent": "DG-E3"
+    },
+    {
+      "id": "DG-S3.3",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "MISO queue extractor",
+      "status": "planned",
+      "requirements": ["DG-REQ-5", "DG-REQ-6"],
+      "dependencies": ["DG-S1.2"],
+      "parent": "DG-E3"
+    },
+    {
+      "id": "DG-S3.4",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Queue freshness on GET /sources",
+      "status": "planned",
+      "requirements": ["DG-REQ-18"],
+      "dependencies": ["DG-S3.1"],
+      "parent": "DG-E3"
+    },
+    {
+      "id": "DG-S3.5",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "SPP and CAISO on the shared normalizer",
+      "status": "planned",
+      "requirements": ["DG-REQ-5"],
+      "dependencies": ["DG-S3.1", "DG-S3.2", "DG-S3.3"],
+      "parent": "DG-E3"
+    },
+    {
+      "id": "DG-E4",
+      "type": "epic",
+      "wave": "wave-1",
+      "title": "Retail tariffs",
+      "status": "planned",
+      "requirements": ["DG-REQ-2", "DG-REQ-7"],
+      "dependencies": ["DG-E1"]
+    },
+    {
+      "id": "DG-S4.1",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "EIA industrial retail averages",
+      "status": "planned",
+      "requirements": ["DG-REQ-2", "DG-REQ-7"],
+      "dependencies": ["DG-S1.2"],
+      "parent": "DG-E4"
+    },
+    {
+      "id": "DG-E5",
+      "type": "epic",
+      "wave": "wave-1",
+      "title": "Parcels and constraints",
+      "status": "planned",
+      "requirements": ["DG-REQ-9", "DG-REQ-10", "DG-REQ-11", "DG-REQ-12", "DG-REQ-20"],
+      "dependencies": ["DG-E2"]
+    },
+    {
+      "id": "DG-S5.1",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Licensed parcels for watched counties",
+      "status": "planned",
+      "requirements": ["DG-REQ-9", "DG-REQ-20"],
+      "dependencies": ["DG-S2.1"],
+      "parent": "DG-E5"
+    },
+    {
+      "id": "DG-S5.2",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Net buildable acreage",
+      "status": "planned",
+      "requirements": ["DG-REQ-10"],
+      "dependencies": ["DG-S5.1", "DG-S2.3"],
+      "parent": "DG-E5"
+    },
+    {
+      "id": "DG-S5.3",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Residential buffer flag",
+      "status": "planned",
+      "requirements": ["DG-REQ-12"],
+      "dependencies": ["DG-S5.1"],
+      "parent": "DG-E5"
+    },
+    {
+      "id": "DG-S5.4",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Slope on watched parcels",
+      "status": "planned",
+      "requirements": ["DG-REQ-11"],
+      "dependencies": ["DG-S2.4", "DG-S5.1"],
+      "parent": "DG-E5"
+    },
+    {
+      "id": "DG-E6",
+      "type": "epic",
+      "wave": "wave-1",
+      "title": "Climate and water",
+      "status": "planned",
+      "requirements": ["DG-REQ-13", "DG-REQ-14"],
+      "dependencies": ["DG-E1"]
+    },
+    {
+      "id": "DG-S6.1",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Annual free-cooling hours",
+      "status": "planned",
+      "requirements": ["DG-REQ-13"],
+      "dependencies": ["DG-S1.2"],
+      "parent": "DG-E6"
+    },
+    {
+      "id": "DG-S6.2",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Cited water rates and moratoriums",
+      "status": "planned",
+      "requirements": ["DG-REQ-14"],
+      "dependencies": ["DG-S1.2"],
+      "parent": "DG-E6"
+    },
+    {
+      "id": "DG-E7",
+      "type": "epic",
+      "wave": "wave-1",
+      "title": "Incentives and agendas",
+      "status": "planned",
+      "requirements": ["DG-REQ-15", "DG-REQ-16"],
+      "dependencies": ["DG-E1"]
+    },
+    {
+      "id": "DG-S7.1",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Structured state incentive rows",
+      "status": "planned",
+      "requirements": ["DG-REQ-15"],
+      "dependencies": ["DG-S1.2"],
+      "parent": "DG-E7"
+    },
+    {
+      "id": "DG-S7.2",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Seed-county agenda watch",
+      "status": "planned",
+      "requirements": ["DG-REQ-16"],
+      "dependencies": ["DG-S7.1"],
+      "parent": "DG-E7"
+    },
+    {
+      "id": "DG-E8",
+      "type": "epic",
+      "wave": "wave-1",
+      "title": "Assemble and serve",
+      "status": "planned",
+      "requirements": ["DG-REQ-1", "DG-REQ-2", "DG-REQ-3", "DG-REQ-4"],
+      "dependencies": ["DG-E2", "DG-E3", "DG-E4", "DG-E5", "DG-E6", "DG-E7"]
+    },
+    {
+      "id": "DG-S8.1",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Spatial link from parcels to lines and substations",
+      "status": "planned",
+      "requirements": ["DG-REQ-3"],
+      "dependencies": ["DG-S2.2", "DG-S5.1"],
+      "parent": "DG-E8"
+    },
+    {
+      "id": "DG-S8.2",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Assemble canonical feature with gaps",
+      "status": "planned",
+      "requirements": ["DG-REQ-1", "DG-REQ-2"],
+      "dependencies": ["DG-S8.1", "DG-S4.1", "DG-S6.1", "DG-S7.1"],
+      "parent": "DG-E8"
+    },
+    {
+      "id": "DG-S8.3",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Site search and fetch API",
+      "status": "planned",
+      "requirements": ["DG-REQ-3", "DG-REQ-4"],
+      "dependencies": ["DG-S8.2"],
+      "parent": "DG-E8"
+    },
+    {
+      "id": "DG-S8.4",
+      "type": "story",
+      "wave": "wave-1",
+      "title": "Optional versioned score hook",
+      "status": "planned",
+      "requirements": ["DG-REQ-4"],
+      "dependencies": ["DG-S8.3", "DG-S1.3"],
+      "parent": "DG-E8"
+    },
+    {
+      "id": "APP-E1",
+      "type": "epic",
+      "wave": "wave-2",
+      "title": "Orchestrator and specialist agents",
+      "status": "planned",
+      "requirements": [],
+      "dependencies": ["DG-E8"]
+    },
+    {
+      "id": "APP-S1.1",
+      "type": "story",
+      "wave": "wave-2",
+      "title": "Buster-Core shortlist",
+      "status": "planned",
+      "requirements": [],
+      "dependencies": ["DG-S8.3"],
+      "parent": "APP-E1"
+    },
+    {
+      "id": "APP-S1.2",
+      "type": "story",
+      "wave": "wave-2",
+      "title": "GeoSite narrative",
+      "status": "planned",
+      "requirements": [],
+      "dependencies": ["APP-S1.1"],
+      "parent": "APP-E1"
+    },
+    {
+      "id": "APP-S1.3",
+      "type": "story",
+      "wave": "wave-2",
+      "title": "GridPower narrative",
+      "status": "planned",
+      "requirements": [],
+      "dependencies": ["APP-S1.1"],
+      "parent": "APP-E1"
+    },
+    {
+      "id": "APP-S1.4",
+      "type": "story",
+      "wave": "wave-2",
+      "title": "PolicyTax narrative with citations",
+      "status": "planned",
+      "requirements": [],
+      "dependencies": ["APP-S1.1"],
+      "parent": "APP-E1"
+    },
+    {
+      "id": "APP-S1.5",
+      "type": "story",
+      "wave": "wave-2",
+      "title": "Three cooling scenarios",
+      "status": "planned",
+      "requirements": [],
+      "dependencies": ["APP-S1.1", "DG-S6.1"],
+      "parent": "APP-E1"
+    },
+    {
+      "id": "APP-E2",
+      "type": "epic",
+      "wave": "wave-2",
+      "title": "Map discovery",
+      "status": "planned",
+      "requirements": [],
+      "dependencies": ["DG-E8"]
+    },
+    {
+      "id": "APP-S2.1",
+      "type": "story",
+      "wave": "wave-2",
+      "title": "Draw or pick a region",
+      "status": "planned",
+      "requirements": [],
+      "dependencies": ["DG-S8.3"],
+      "parent": "APP-E2"
+    },
+    {
+      "id": "APP-S2.2",
+      "type": "story",
+      "wave": "wave-2",
+      "title": "Constraint sliders with honest disabled states",
+      "status": "planned",
+      "requirements": [],
+      "dependencies": ["APP-S2.1"],
+      "parent": "APP-E2"
+    },
+    {
+      "id": "APP-E3",
+      "type": "epic",
+      "wave": "wave-2",
+      "title": "Deal memo",
+      "status": "planned",
+      "requirements": [],
+      "dependencies": ["APP-E1"]
+    },
+    {
+      "id": "APP-S3.1",
+      "type": "story",
+      "wave": "wave-2",
+      "title": "Cited site export",
+      "status": "planned",
+      "requirements": [],
+      "dependencies": ["APP-S1.1"],
+      "parent": "APP-E3"
+    },
+    {
+      "id": "APP-S3.2",
+      "type": "story",
+      "wave": "wave-2",
+      "title": "Finance block only with a model version",
+      "status": "planned",
+      "requirements": [],
+      "dependencies": ["APP-S3.1", "DG-S1.3"],
+      "parent": "APP-E3"
+    },
+    {
+      "id": "APP-E4",
+      "type": "epic",
+      "wave": "wave-3",
+      "title": "Demand capture",
+      "status": "planned",
+      "requirements": [],
+      "dependencies": ["APP-E3"]
+    },
+    {
+      "id": "APP-S4.1",
+      "type": "story",
+      "wave": "wave-3",
+      "title": "Sourced interest layer",
+      "status": "planned",
+      "requirements": [],
+      "dependencies": ["DG-S8.3"],
+      "parent": "APP-E4"
+    },
+    {
+      "id": "APP-S4.2",
+      "type": "story",
+      "wave": "wave-3",
+      "title": "Powered-shell offer sketch",
+      "status": "planned",
+      "requirements": [],
+      "dependencies": ["APP-S3.1"],
+      "parent": "APP-E4"
+    },
+    {
+      "id": "APP-S4.3",
+      "type": "story",
+      "wave": "wave-3",
+      "title": "Benchmark cards from observations only",
+      "status": "planned",
+      "requirements": ["DG-REQ-2"],
+      "dependencies": ["DG-S4.1", "DG-S6.1"],
+      "parent": "APP-E4"
+    }
+  ]
+}
