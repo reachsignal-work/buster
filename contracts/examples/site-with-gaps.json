@@ -1,0 +1,69 @@
+{
+  "type": "Feature",
+  "site_id": "SITE-US-PJM-AEP-089",
+  "assembler_version": "0.1.0",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [-82.951, 40.112],
+        [-82.935, 40.112],
+        [-82.935, 40.098],
+        [-82.951, 40.098],
+        [-82.951, 40.112]
+      ]
+    ]
+  },
+  "properties": {
+    "name": "Scioto Valley example parcel",
+    "jurisdiction": {
+      "state": "OH",
+      "county": "Licking",
+      "rto_iso": "PJM",
+      "utility_operating_company": "AEP Ohio"
+    },
+    "land_metrics": {
+      "gross_acres": 340.5,
+      "net_buildable_acres": 305.2,
+      "buildable_method": "buildable-0.1.0",
+      "topography_slope_max_pct": 2.1,
+      "slope_exceeds_gate": false,
+      "floodplain_overlap_pct": 0,
+      "wetlands_overlap_pct": 0,
+      "residential_buffer_conflict": false
+    },
+    "grid_metrics": {
+      "nearest_substation_name": "Example 345 kV",
+      "nearest_substation_distance_km": 1.8,
+      "transmission_voltage_kv": 345,
+      "active_queue_projects_at_poi": 4,
+      "retail_industrial_average_cents_kwh": 5.42,
+      "tariff_match": "utility"
+    },
+    "thermal_water_metrics": {
+      "climate_station_id": "USW00014821",
+      "annual_free_cooling_hours": 5920,
+      "free_cooling_threshold": "wet_bulb_f<=50"
+    },
+    "incentive_metrics": {
+      "incentive_match": "state",
+      "data_center_sales_tax_exemption": true,
+      "citation": "Ohio Revised Code example citation — replace with statute section when DG-S7.1 loads"
+    },
+    "gaps": ["water", "estimated_ttp_months", "available_headroom_mw", "score"],
+    "observations": [
+      {
+        "domain": "parcel",
+        "source_id": "parcel-vendor",
+        "retrieved_at": "2026-10-01T00:00:00Z",
+        "observation_id": "obs-parcel-1"
+      },
+      {
+        "domain": "transmission",
+        "source_id": "public-lines",
+        "retrieved_at": "2026-09-15T00:00:00Z",
+        "observation_id": "obs-line-1"
+      }
+    ]
+  }
+}

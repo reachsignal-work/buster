@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/reachsignal-work/buster/blob/main/contracts/canonical-site.schema.json",
+  "title": "Buster canonical site feature",
+  "description": "Assembled parcel view served by Data Gains. Metrics without an observation are omitted and named in gaps. Derived metrics require a method or model_version.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["type", "site_id", "assembler_version", "geometry", "properties"],
+  "properties": {
+    "type": { "const": "Feature" },
+    "site_id": { "type": "string", "minLength": 1 },
+    "assembler_version": { "type": "string", "minLength": 1 },
+    "geometry": {
+      "type": "object",
+      "required": ["type", "coordinates"],
+      "properties": {
+        "type": { "enum": ["Polygon", "MultiPolygon"] },
+        "coordinates": { "type": "array" }
+      }
+    },
+    "properties": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jurisdiction", "land_metrics", "gaps", "observations"],
+      "properties": {
+        "name": { "type": "string" },
+        "jurisdiction": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["state", "county"],
+          "properties": {
+            "state": { "type": "string", "minLength": 2 },
+            "county": { "type": "string" },
+            "rto_iso": { "type": "string" },
+            "utility_operating_company": { "type": "string" }
+          }
+        },
+        "land_metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["gross_acres"],
+          "properties": {
+            "gross_acres": { "type": "number", "minimum": 0 },
+            "net_buildable_acres": { "type": "number", "minimum": 0 },
+            "buildable_method": { "type": "string" },
+            "topography_slope_max_pct": { "type": "number" },
+            "slope_exceeds_gate": { "type": "boolean" },
+            "floodplain_overlap_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+            "wetlands_overlap_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+            "residential_buffer_conflict": { "type": "boolean" }
+          },
+          "allOf": [
+            {
+              "if": { "required": ["net_buildable_acres"] },
+              "then": { "required": ["buildable_method"] }
+            }
+          ]
+        },
+        "grid_metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "nearest_substation_name": { "type": "string" },
+            "nearest_substation_distance_km": { "type": "number", "minimum": 0 },
+            "transmission_voltage_kv": { "type": "number", "minimum": 0 },
+            "active_queue_projects_at_poi": { "type": "integer", "minimum": 0 },
+            "retail_industrial_average_cents_kwh": { "type": "number", "minimum": 0 },
+            "tariff_match": { "enum": ["utility", "state_fallback"] },
+            "available_headroom_mw": { "type": "number" },
+            "headroom_method": { "type": "string" },
+            "estimated_ttp_months": { "type": "number", "minimum": 0 },
+            "ttp_model_version": { "type": "string" }
+          },
+          "allOf": [
+            {
+              "if": { "required": ["available_headroom_mw"] },
+              "then": { "required": ["headroom_method"] }
+            },
+            {
+              "if": { "required": ["estimated_ttp_months"] },
+              "then": { "required": ["ttp_model_version"] }
+            },
+            {
+              "if": { "required": ["retail_industrial_average_cents_kwh"] },
+              "then": { "required": ["tariff_match"] }
+            }
+          ]
+        },
+        "thermal_water_metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "climate_station_id": { "type": "string" },
+            "ashrae_zone": { "type": "string" },
+            "annual_free_cooling_hours": { "type": "number", "minimum": 0, "maximum": 8784 },
+            "free_cooling_threshold": { "type": "string" },
+            "water_service_provider": { "type": "string" },
+            "industrial_water_rate": { "type": "number", "minimum": 0 },
+            "water_rate_unit": { "type": "string" },
+            "water_citation": { "type": "string" },
+            "water_moratorium_active": { "type": "boolean" },
+            "water_moratorium_citation": { "type": "string" }
+          },
+          "allOf": [
+            {
+              "if": { "required": ["annual_free_cooling_hours"] },
+              "then": { "required": ["climate_station_id", "free_cooling_threshold"] }
+            },
+            {
+              "if": { "required": ["industrial_water_rate"] },
+              "then": { "required": ["water_rate_unit", "water_citation"] }
+            },
+            {
+              "if": {
+                "properties": { "water_moratorium_active": { "const": true } },
+                "required": ["water_moratorium_active"]
+              },
+              "then": { "required": ["water_moratorium_citation"] }
+            }
+          ]
+        },
+        "incentive_metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "incentive_match": { "enum": ["county", "state"] },
+            "data_center_sales_tax_exemption": { "type": "boolean" },
+            "server_refresh_tax_exempt": { "type": "boolean" },
+            "pilot_program_available": { "type": "boolean" },
+            "property_tax_abatement_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+            "abatement_duration_years": { "type": "number", "minimum": 0 },
+            "citation": { "type": "string", "minLength": 1 }
+          },
+          "required": ["incentive_match", "citation"]
+        },
+        "financial_benchmarks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["model_version"],
+          "properties": {
+            "model_version": { "type": "string", "minLength": 1 },
+            "site_acquisition_cost": { "type": "number" },
+            "estimated_capex_per_mw": { "type": "number" },
+            "projected_lease_rate_kw_mo": { "type": "number" },
+            "projected_unlevered_irr_pct": { "type": "number" }
+          }
+        },
+        "score": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["model_version", "overall_buster_score"],
+          "properties": {
+            "model_version": { "type": "string", "minLength": 1 },
+            "overall_buster_score": { "type": "number" },
+            "readiness_tier": { "type": "string" }
+          }
+        },
+        "gaps": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "observations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["domain", "source_id", "retrieved_at"],
+            "properties": {
+              "domain": { "type": "string" },
+              "source_id": { "type": "string" },
+              "retrieved_at": { "type": "string", "format": "date-time" },
+              "observation_id": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
